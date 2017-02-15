@@ -1,0 +1,16 @@
+.uploadContainer {
+    background: #F9F9F9;
+    outline: dotted 3px #ccc;
+    cursor: pointer;
+    height: 100%;
+}
+
+.uploaderWithoutFile {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.uploaderWithFile {
+    max-height: 100%;
+    max-width: 100%;
+}
