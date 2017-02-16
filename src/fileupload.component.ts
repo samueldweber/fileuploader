@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Http } from '@angular/http';
 
 import * as JSZip from 'jszip';
 
@@ -35,7 +34,6 @@ export class FileUploadComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private http: Http,
         private el: ElementRef
     ) { }
 
@@ -197,13 +195,7 @@ export class FileUploadComponent implements OnInit {
     handleExtension(file: File): number {
         let name = file.name.toLocaleLowerCase();
         let ext = name.split('.').pop();
-        if(ext === 'xml') {
-            if(name.indexOf('nfe') == -1 && name.indexOf('nfse') == -1 && name.indexOf('cte') == -1 && name.indexOf('notas') == -1) {
-               //erro; 
-            } else {
-                return 1;
-            }
-        } if (ext === 'zip') {
+        if (ext === 'zip') {
             return 2;
         }
 
