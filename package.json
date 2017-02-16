@@ -1,5 +1,5 @@
 {
-  "name": "centerweb",
+  "name": "fileuploader",
   "version": "1.0.0",
   "description": "An angular2 component for files upload",
   "scripts": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/bloaseteam/centeraccountingweb.git"
+    "url": "https://github.com/Bloase/fileuploader.git"
   },
   "contributors": [
     "Samuel Justo Waskow <samuel@bloase.com>",
