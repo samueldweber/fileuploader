@@ -15,7 +15,9 @@ export class UploaderComponent {
     @Input() userImg: string;
     @Input() cpntID: string;
     @Input() accepted: string;
+    @Input() maxSize: number = 0;
     @Input() looks: any;
+    @Input() multiple: boolean = true;
     @Output() results: EventEmitter<any> = new EventEmitter();
     @Output() fail: EventEmitter<any> = new EventEmitter();
 
@@ -45,11 +47,19 @@ export class UploaderComponent {
         this.dragging = false;
         if (files.length > 0) {
 
+            
+
             if (this.type === 'image') {
                 let file = files[0];
                 this.handleImageLoad(file);
             } else if (this.type === 'invoice') {
                 this.handleInvoiceLoad(files);
+            } else {
+                if(this.multiple) {
+
+                } else {
+                    this.loadSingle(files[0]);
+                }
             }
         }
     }
@@ -83,6 +93,33 @@ export class UploaderComponent {
         }
     }
 
+    loadSingle(file: any) {
+        if(this.maxSize !== null && this.maxSize > 0) {
+            if(file.size > this.maxSize) {
+                return;
+            }
+        }
+        this.files = [];
+        this.files.push(file);
+    }
+
+    loadMultiple(files: any) {
+        if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+
+                let file: File = files[i];
+                
+                if(this.maxSize !== null && this.maxSize > 0) {
+                    if(file.size > this.maxSize) {
+                        this.failed.push(file.name);
+                        continue;
+                    }
+                }
+                this.files.push(file);
+            }
+        }
+    }
+
     cleanFiles() {
         this.input.nativeElement.value = '';
     }
@@ -90,18 +127,25 @@ export class UploaderComponent {
     handleInvoiceLoad(files: any) {
         if (files.length > 0) {
             for (let i = 0; i < files.length; i++) {
+                
                 let file: File = files[i];
-                console.log(file.name);
+
+                if(this.maxSize !== null && this.maxSize > 0) {
+                    if(file.size > this.maxSize) {
+                        this.failed.push(file.name);
+                        continue;
+                    }
+                }
 
                 if (this.handleExtension(file) == 0) {
                     this.files.push(file);
-                } else if (this.handleExtension(file) == 1) {
+                } else if (this.handleExtension(file) == 2) {
                     this.jszip.loadAsync(file)
-                        .then(configZip => {
+                        .then((configZip: any) => {
                             configZip.forEach((filePath: string, file: JSZipObject) => {
                                 if (!file.dir) {
-                                    let filename = file.name.split('/').pop();
-                                    if (!filename.startsWith('.')) {
+                                    let filename: string = file.name.split('/').pop();
+                                    if ((filename.indexOf('.') !== 0)) {
                                         file.async("blob").then((content: Blob) => {
                                             let f = new File([content], filename);
                                             this.files.push(f);

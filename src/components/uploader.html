@@ -1,5 +1,5 @@
 <div class="uploadContainer" [style.outlineColor]="dragging ? 'red' : '#ccc'" fileDropDirective (fileOver)="handleFileOver($event)" (onFileDrop)="handleFileLoad($event)" [ngStyle]="setStyles()">
-    <input type="file" #input [hidden]="true" [id]="cpntID" (change)="onChange($event)" multiple [accept]="accepted">
+    <input type="file" #input [hidden]="true" [id]="cpntID" (change)="onChange($event)" multiple="multiple" [accept]="accepted">
     <ng-content *ngIf="files.length == 0" select="uploader-without-file" class="uploaderWithoutFile"></ng-content>
     <ng-content *ngIf="files.length > 0"select="uploader-with-file" class="uploaderWithFile"></ng-content>
 </div>
